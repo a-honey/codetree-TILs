@@ -8,18 +8,20 @@ const fs = require('fs');
 
 const input = fs.readFileSync('/dev/stdin', 'utf8').trim().split('\n');
 
-const nums = input[0];
-const prices = input[1].split(' ');
-let money = input[2];
+const nums = Number(input[0]);
+const prices = input[1].split(' ').map(Number);
+let money = Number(input[2]);
 
 let answer = [];
 
+// 큰 수가 비용을 초과할 수 있음
 for (let i = nums - 1; i >= 0; i--) {
-    if (money <= 0) {
-        return;
+    if (money - prices[i] >= 0) {    
+        answer.push(i);
+        money = money - prices[i];
+    } else {
+        continue;
     }
-    answer.push(i);
-    money = money - prices[i];
 }
 
 console.log(answer.join(''));
